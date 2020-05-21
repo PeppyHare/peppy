@@ -32,9 +32,9 @@ $ omf install https://github.com/Peppyhare/peppy
 
 ## Screenshot
 
-![darktheme.png]
+![darktheme.png](darktheme.png)
 
-![lighttheme.png]
+![lighttheme.png](lighttheme.png)
 
 
 # License
