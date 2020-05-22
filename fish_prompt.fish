@@ -89,7 +89,9 @@ function __kube_prompt
     end
 
     __kube_ps_update_cache
-    echo -n -s " (⎈ $__kube_ps_context|$__kube_ps_namespace)"
+    if [ "$__kube_ps_context" != "n/a" ]
+        echo -n -s " (⎈ $__kube_ps_context|$__kube_ps_namespace)"
+    end
 end
 
 
@@ -222,10 +224,10 @@ function fish_prompt
     end
 
     # Line 1
-    set -l left_prompt $white'╭─'$hotpink$current_user(__kube_prompt)$white' in '$limegreen(pwd|sed "s=$HOME=~=")$turquoise
-
+    set -l left_prompt $white'╭─'$hotpink$current_user$white' in '$limegreen(pwd|sed "s=$HOME=~=")$turquoise
+    _append left_prompt (__kube_prompt " (%s)")
     _append left_prompt (__fish_git_prompt " (%s)")
-    set -l right_prompt "$last_status ($duration) "
+    set -l right_prompt " $last_status ($duration) "
     _append right_prompt (date "+%H:%M:%S")
     set -l left_length (visual_length $left_prompt)
     set -l right_length (visual_length $right_prompt)
@@ -233,7 +235,8 @@ function fish_prompt
   
     # display first line
     echo -n $left_prompt
-    printf "%-"$spaces"s" " "
+    # printf $turquoise"%-"$spaces"s" " " | tr ' ' '-'
+    printf $turquoise"%-"$spaces"s" " "
     echo $right_prompt
   
     # Line 2
