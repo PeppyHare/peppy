@@ -224,7 +224,12 @@ function fish_prompt
     end
 
     # Line 1
-    set -l left_prompt $white'╭─'$hotpink$current_user$white' in '$limegreen(pwd|sed "s=$HOME=~=")$turquoise
+    set -l left_prompt $white'╭─'$hotpink$current_user
+    # Show the host when connected over SSH
+    if set -q SSH_CONNECTION; or set -q SSH_TTY
+        _append left_prompt $white'@'$orange$__fish_prompt_hostname
+    end
+    _append left_prompt $white' in '$limegreen(pwd|sed "s=$HOME=~=")$turquoise
     _append left_prompt (__kube_prompt " (%s)")
     _append left_prompt (__fish_git_prompt " (%s)")
     set -l right_prompt " $last_status ($duration) "
